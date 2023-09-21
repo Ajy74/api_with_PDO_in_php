@@ -2,49 +2,49 @@
 
     class Users{
 
-        //db stuff
+        //& db stuff
         private $conn;
         private $table = 'gita';
 
-        //post properties
+        //& post properties
         public $serial;
         public $name;
         public $gender;
         public $age;
         public $roll;
 
-        //constructor with db connection
+        //& constructor with db connection
         public function __construct($db)
         {
             $this->conn = $db;
         }
 
-        //getting data from database
+        //& getting data from database
         public function read(){
-            //create query
+            //^ create query
             $selectQuery = 'SELECT * from '.$this->table .' ';
             
-            //prepare statement
+            //^ prepare statement
             $stmt = $this->conn->prepare($selectQuery);
 
-            //execute query
+            //^ execute query
             $stmt->execute();
 
             return $stmt;
         }
 
-        //getting single data from database
+        //& getting single data from database
         public function read_single(){
-            //create query
+            //^ create query
             $selectQuery = 'SELECT * from '.$this->table .'  WHERE '.$this->table .'.name = ? LIMIT 1 ';
             
-            //prepare statement
+            //^ prepare statement
             $stmt = $this->conn->prepare($selectQuery);
 
-            //binding param
+            //^ binding param
             $stmt->bindParam(1,$this->name);
             
-            //execute query
+            //^ execute query
             $stmt->execute();
 
             $row = $stmt->fetch();
@@ -54,13 +54,13 @@
             $this->roll = $row['roll'];
         }
 
-        //creating or storing data to database
+        //& creating or storing data to database
         public function create(){
             //create query
             $insertQuery = 'INSERT INTO '.$this->table.'(name,gender,age,roll) values(:name,:gender,:age,:roll) ';
             $stmt = $this->conn->prepare($insertQuery);
 
-            //clean data
+            //^ clean data
             $this->name = htmlspecialchars(strip_tags($this->name));
             $this->gender = htmlspecialchars(strip_tags($this->gender));
             $this->age = htmlspecialchars(strip_tags($this->age));
@@ -84,7 +84,7 @@
 
         }
 
-        //updating data to database
+        //& updating data to database
         public function update(){
             //create query
             $updateQuery = 'UPDATE '.$this->table.' SET name=:name,gender=:gender,age=:age,roll=:roll WHERE serial=:serial ';
